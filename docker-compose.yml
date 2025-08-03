@@ -17,8 +17,6 @@ services:
       context: ./ai-service-agent
     ports:
       - "8000:8000"
-    volumes:
-      - ./ai-service-agent/:/usr/src
     env_file:
       - "./ai-service-agent/config/.env"
     profiles:
