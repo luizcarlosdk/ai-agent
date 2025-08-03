@@ -1,12 +1,18 @@
 [tool.poetry]
-name = "Ai Service Agent"
+name = "ai-service-agent"
 version = "0.1"
 description = "This project simulates an iteration between 2 agents AI dealing with a security multi-round conversation"
 authors = ["Luiz Carlos <luizcarlosdk@hotmail.com>"]
 
+packages = [
+    { include = "src" }
+]
+
 [tool.poetry.dependencies]
-python = "^3.14"
+python = "^3.13"
 fastapi = "^0.115.2"
+python-dotenv = "^1.0.1"
+uvicorn = "^0.29.0"
 
 [tool.ruff]
 line-length = 79
