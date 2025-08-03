@@ -1,0 +1,25 @@
+###################################################################
+#                                                                 #
+#  This docker-compose.yaml file comprehends 1 profiles           #
+#                                                                 #
+#  - project:     Run agent project                               #
+#                                                                 #
+#  To setup a specific profile, run:                              #
+#  docker-compose --profile <profile> up -d                       #
+#                                                                 #
+#  More information at https://docs.docker.com/compose/profiles/  #
+#                                                                 #
+###################################################################
+
+services:
+  api:
+    build:
+      context: ./ai-service-agent
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./ai-service-agent/:/usr/src
+    env_file:
+      - "./ai-service-agent/config/.env"
+    profiles:
+      - project
