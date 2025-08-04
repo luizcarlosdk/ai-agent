@@ -1,7 +1,6 @@
 from fastapi import APIRouter, BackgroundTasks, HTTPException
 from pydantic import BaseModel
 from uuid import uuid4
-from typing import Dict, Any
 
 from core.Conversation import Conversation
 
@@ -9,23 +8,24 @@ router = APIRouter()
 
 occurrences_history = {}
 
-
-# class OccurrenceRequest(BaseModel):
-#     client_context: dict
-#     events_details: dict
-
-
-# class OccurrenceStatus(BaseModel):
-#     status: str
-#     history: list[str]
+class TestCase(BaseModel):
+    test_cases: list[dict]
+    test_suite_id: str
+    
+def _process_occurrence(occurrence, occurrence_id):
+    agents_conversation = Conversation(occurrence)
+    conversation_result = agents_conversation.start_conversation()
+    occurrences_history[occurrence_id] = conversation_result
 
 @router.post("/handle_occurrence")
-async def handle_occurrence(occurrence):
-    occurrence_hash = str(uuid4())    
-    conversation_result = Conversation(occurrence).start_conversation()
-    occurrences_history[occurrence_hash] = conversation_result
+async def handle_occurrence(tests: TestCase, background_tasks: BackgroundTasks):
+    ids = []
+    for occurrence in tests.test_cases:
+        occurrence_id = str(uuid4())
+        background_tasks.add_task(_process_occurrence, occurrence, occurrence_id)
+        ids.append(occurrence_id)
 
-    return {"id": occurrence_hash}
+    return ids
 
 
 @router.get("/status_occurrence")
