@@ -16,7 +16,8 @@ class AssistentAgent:
                 - Sempre responde de forma clara e objetiva.
                 
                 Detalhes do cliente:
-                {self.occurence['client_context']}
+                {self.occurence['client_context']['client_details']}
+
                 
                 Detalhes do evento:
                 {self.occurence['events_details']}
@@ -33,7 +34,7 @@ class AssistentAgent:
             }
         ]
         self.model = "deepseek/deepseek-r1-0528:free"
-        self.client = OpenAI(  base_url="https://openrouter.ai/api/v1", api_key="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",)
+        self.client = OpenAI(  base_url="https://openrouter.ai/api/v1", api_key=os.getenv("OPENAI_API_KEY"))
 
     def initial_message(self):
         completion = self.client.chat.completions.create(
