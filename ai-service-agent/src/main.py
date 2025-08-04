@@ -3,7 +3,11 @@ import uvicorn
 import os
 from dotenv import load_dotenv
 
+from routes.ServiceRoute import router as service_router
+
 app = FastAPI()
+
+app.include_router(service_router)
 
 @app.get("/")
 async def root():
