@@ -17,7 +17,8 @@ RUN pip install poetry==${POETRY_VERSION}
 # Install project dependencies defined in pyproject.toml
 RUN poetry install
 
-ENV PYTHONPATH=/usr/src/
+ENV PYTHONPATH=/usr/src/src
+WORKDIR /usr/src/src
 
-# Run project
-CMD ["poetry", "run", "uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run project from inside src/, and import main as “main:app”
+CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
