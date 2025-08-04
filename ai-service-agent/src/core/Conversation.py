@@ -17,7 +17,6 @@ class Conversation:
         iteration_counter = 0
         while iteration_counter < 10:
             assistant_question = self.assistent_agent.agent_conversation(client_response)
-            print("Assistente: ", assistant_question)
             if "ESCALADO" in assistant_question:
                 status = "ESCALADO"
             elif "FINALIZADO" in assistant_question:
@@ -31,7 +30,6 @@ class Conversation:
                 }
 
             client_response = self.client_agent.agent_conversation(assistant_question)
-            print("Cliente: ", client_response)
             iteration_counter += 1
         
         return {
