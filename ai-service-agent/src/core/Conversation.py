@@ -3,28 +3,38 @@ from agents.ClientAgent import ClientAgent
 
 class Conversation:
     def __init__(self, occurrence):
-        self.occurrence = occurrence[0]
+        self.occurrence = occurrence
         
         self.assistent_agent = AssistentAgent(self.occurrence)
-        self.client_agent = ClientAgent(self.occurrence, "palavra correta", "bem")
+        self.client_agent = ClientAgent(self.occurrence)
         
     
     def start_conversation(self):
+        status = False
         assistant_question = self.assistent_agent.initial_message()
-        print(f"Resposta do assistente: {assistant_question}")
         client_response = self.client_agent.agent_conversation(assistant_question)
-        print(f"Resposta do cliente: {client_response}")
 
-
-        while True:
+        iteration_counter = 0
+        while iteration_counter < 10:
             assistant_question = self.assistent_agent.agent_conversation(client_response)
-            print(f"Resposta do assistente: {assistant_question}")
-
-            if "ESCALADO" in assistant_question or "FINALIZADO" in assistant_question:
+            print("Assistente: ", assistant_question)
+            if "ESCALADO" in assistant_question:
+                status = "ESCALADO"
+            elif "FINALIZADO" in assistant_question:
+                status = "FINALIZADO"
+            
+            if status:    
+                self.assistent_agent.chat_history.pop(0)
                 return {
-                    "status": "Conversation ended",
-                    "messages": self.assistent_agent.chat_history
+                    "status_final": status,
+                    "mensagens": self.assistent_agent.chat_history
                 }
 
             client_response = self.client_agent.agent_conversation(assistant_question)
-            print(f"Resposta do cliente: {client_response}")
+            print("Cliente: ", client_response)
+            iteration_counter += 1
+        
+        return {
+            "status_final": "Máximo de iterações atingido",
+            "mensagens": self.assistent_agent.chat_history
+        }
