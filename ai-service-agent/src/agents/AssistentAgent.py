@@ -34,7 +34,10 @@ class AssistentAgent:
             }
         ]
         self.model = "deepseek/deepseek-r1-0528:free"
-        self.client = OpenAI(  base_url="https://openrouter.ai/api/v1", api_key=os.getenv("OPENAI_API_KEY"))
+        self.client = OpenAI(
+            base_url="https://openrouter.ai/api/v1",
+            api_key=os.getenv("OPENAI_API_KEY")
+        )
 
     def initial_message(self):
         completion = self.client.chat.completions.create(
@@ -50,7 +53,7 @@ class AssistentAgent:
             model=self.model,
             messages=self.chat_history + [{"role": "user", "content": user_message}],
         )
-        
+
         self.chat_history.append({"role": "user", "content": user_message})
         self.chat_history.append({"role": "assistant", "content": completion.choices[0].message.content})
 
