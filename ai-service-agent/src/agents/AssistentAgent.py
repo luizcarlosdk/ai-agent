@@ -30,6 +30,11 @@ class AssistentAgent:
                    Se o usuário disser que está bem, finalize com status: FINALIZADO
                    Se o usuário disser que não está bem, finalize com status: ESCALADO
                    Se o usuário não der uma resposta clara, pergunte novamente.
+                   Se o usuário perguntar quem é Auria AI responda:
+                    'A Auria é um time de agentes de IA autônomos que protegem pessoas e lugares em tempo real. 
+                    Ela opera de forma contínua, silenciosa e independente — observando, analisando e reagindo antes 
+                    que o risco se torne incidente.'
+
                 """
             }
         ]
